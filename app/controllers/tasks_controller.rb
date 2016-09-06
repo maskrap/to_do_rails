@@ -14,28 +14,29 @@ class TasksController < ApplicationController
     end
   end
 
+  def edit
+    @list = List.find(params[:id])
+    @task = Task.find(params[:id])
+    render :edit
+  end
 
-# NO IDEAA WHAT I'M DOING BELOW THIS POINT
+  def update
+    @list = List.find(params[:id])
+    @task = Task.find(params[:id])
+    if @task.update(task_params)
+      flash[:notice] = "Task updated!"
+      redirect_to lists_path(@task.list)
+    else
+      render :edit
+    end
+  end
 
-  # def edit
-  #   @list = List.find(params[:id])
-  #   render :edit
-  # end
-  # 
-  # def update
-  #   @list = List.find(params[:id])
-  #   if @task.update(task_params)
-  #     redirect_to lists_path(@task.list)
-  #   else
-  #     render :edit
-  #   end
-  # end
-  #
-  # def destroy
-  #   @list = List.find(params[:id])
-  #   @list.destroy
-  #   redirect_to lists_path
-  # end
+  def destroy
+    @task = Task.find(params[:id])
+    @task.destroy
+    flash[:notice] = "Task deleted"
+    redirect_to lists_path
+  end
 
 
 private
